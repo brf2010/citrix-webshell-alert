@@ -4,7 +4,7 @@
 
 SPLUNK_URL="$1"
 HEC_TOKEN="$2"
-CHECK_SCRIPT_PATH="/tmp/TLPCLEAR_check_script_cve-2025-6543-v1.8.sh"
+CHECK_SCRIPT_PATH="/var/nsinstall/TLPCLEAR_check_script_cve-2025-6543-v1.8.sh"
 HOSTNAME=$(hostname)
 
 # run the check script
