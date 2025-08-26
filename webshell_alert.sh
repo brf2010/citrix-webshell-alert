@@ -2,14 +2,27 @@
 
 # Usage: ./upload_to_splunk.sh <file_path> <splunk_url> <hec_token>
 
-FILE_PATH="$1"
-SPLUNK_URL="$2"
-HEC_TOKEN="$3"
-
+SPLUNK_URL="$1"
+HEC_TOKEN="$2"
+CHECK_SCRIPT_PATH="/tmp/TLPCLEAR_check_script_cve-2025-6543-v1.8.sh"
 HOSTNAME=$(hostname)
 
-if [ -z "$FILE_PATH" ] || [ -z "$SPLUNK_URL" ] || [ -z "$HEC_TOKEN" ]; then
-  echo "Usage: $0 <file_path> <splunk_url> <hec_token>"
+# run the check script
+
+# Run the check script and capture its output
+output=$(sh $CHECK_SCRIPT_PATH)
+
+# Extract the log path using grep and sed
+log_path=$(echo "$output" | grep "Log saved to" | sed 's/^.*Log saved to //')
+
+# Use the log path later in the script
+echo "Captured log path: $log_path"
+
+FILE_PATH=$log_path
+
+
+if [ -z "$SPLUNK_URL" ] || [ -z "$HEC_TOKEN" ]; then
+  echo "Usage: $0 <splunk_url> <hec_token>"
   exit 1
 fi
 
