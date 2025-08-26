@@ -21,6 +21,7 @@ scp TLPCLEAR_check_script_cve-2025-6543-v1.8.sh nsroot@$host:/var/nsinstall
 
 ## install crontab
 `crontab -e `
+
 `*/10       *       *       *       *       sh /var/nsinstall/webshell_alert.sh '<https://<HEC ENDPOINT>:8088/services/collector/event>' '<HEC TOKEN>' 2>&1 > /tmp/script_output.txt`
 
 # what do i do with this now that it's in splunk
