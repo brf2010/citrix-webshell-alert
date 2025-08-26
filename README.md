@@ -5,7 +5,9 @@ an attempt to have some alerting for compromise on Citrix systems. this code is 
 
 ## install the scripts
 ssh to your citrix endpoint
+
 drop to `shell`
+
 run these commands to drop the scripts on your netscaler node (you really should inspect these files instead of running them blindly in production, but i'm not your dad)
 ```
 cd /var/nsinstall/
