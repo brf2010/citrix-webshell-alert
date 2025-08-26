@@ -20,5 +20,18 @@ scp TLPCLEAR_check_script_cve-2025-6543-v1.8.sh nsroot@$host:/var/nsinstall
 ```
 
 ## install crontab
-crontab -e 
-*/10       *       *       *       *       sh /var/nsinstall/webshell_alert.sh '<https://<HEC ENDPOINT>:8088/services/collector/event>' '<HEC TOKEN>' 2>&1 > /tmp/script_output.txt
+`crontab -e `
+`*/10       *       *       *       *       sh /var/nsinstall/webshell_alert.sh '<https://<HEC ENDPOINT>:8088/services/collector/event>' '<HEC TOKEN>' 2>&1 > /tmp/script_output.txt`
+
+# what do i do with this now that it's in splunk
+whatever you want, man, but here's a pile of SPL to pull out the relevant fields
+
+```
+| rex field=_raw "(?s)PHP files in /var/netscaler/ =====(?<PHP>.*?)(?:=====|$)"
+| rex field=_raw "(?s)XHTML files in /var/netscaler/ =====(?<XHTML>.*?)(?:=====|$)" 
+| rex field=_raw "(?s)Check for setuid shell at /var/tmp/sh =====(?<suid>.*?)(?:=====|$)" 
+| rex field=_raw "(?s)Root-owned SUID files =====(?<RootSUID>.*?)(?:=====|$)" 
+| rex field=_raw "(?s)NSPPE core dumps \(low confidence indicator\) =====(?<NSPPE>.*?)(?:=====|$)" 
+| rex field=_raw "(?s)Checking rc\.netscaler for backdoor =====(?<rcNetscaler>.*?)(?:=====|$)" 
+| rex field=_raw "(?s)Checking httpd configuration changes =====(?<httpdConfig>.*?)"
+```
