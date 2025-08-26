@@ -35,7 +35,7 @@ fi
 FILE_CONTENT=$(cat "$FILE_PATH")
 
 # Escape double quotes and backslashes for JSON
-ESCAPED_CONTENT=$(sed -e 's/\\/\\\\/g' -e 's/"/\\"/g' -e ':a;N;$!ba;s/\n/\\n/g' "$FILE_PATH")
+ESCAPED_CONTENT=$(sed -e 's/\\/\\\\/g' -e 's/"/\\"/g' "$FILE_PATH" | perl -0777 -pe 's/\n/\\n/g')
 
 # Send to Splunk HEC
 curl -k "$SPLUNK_URL" \
