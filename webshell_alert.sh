@@ -24,7 +24,7 @@ if [ ! -f "$log_path" ]; then
   exit 1
 fi
 
-# Escape double quotes, newlines, and backslashes for JSON
+# Escape double quotes, newlines, and backslashes for JSON; drop content into a variable
 ESCAPED_CONTENT=$(sed -e 's/\\/\\\\/g' -e 's/"/\\"/g' "$log_path" | perl -0777 -pe 's/\n/\\n/g')
 
 # Send to Splunk HEC
