@@ -32,11 +32,23 @@ scp TLPCLEAR_check_script_cve-2025-6543-v1.8.sh nsroot@$host:/var/nsinstall
 whatever you want, man, but here's a pile of SPL to pull out the relevant fields
 
 ```
-| rex field=_raw "(?s)PHP files in /var/netscaler/ =====(?<PHP>.*?)(?:=====|$)"
-| rex field=_raw "(?s)XHTML files in /var/netscaler/ =====(?<XHTML>.*?)(?:=====|$)" 
-| rex field=_raw "(?s)Check for setuid shell at /var/tmp/sh =====(?<suid>.*?)(?:=====|$)" 
-| rex field=_raw "(?s)Root-owned SUID files =====(?<RootSUID>.*?)(?:=====|$)" 
-| rex field=_raw "(?s)NSPPE core dumps \(low confidence indicator\) =====(?<NSPPE>.*?)(?:=====|$)" 
-| rex field=_raw "(?s)Checking rc\.netscaler for backdoor =====(?<rcNetscaler>.*?)(?:=====|$)" 
-| rex field=_raw "(?s)Checking httpd configuration changes =====(?<httpdConfig>.*?)"
+index=netscaler source=Citrix_webshell_checks 
+| rex field=_raw "(?s)PHP files in /var/netscaler/ =====\n(?<PHP>.*?)(?:=====|$)"
+| rex field=_raw "(?s)XHTML files in /var/netscaler/ =====\n(?<XHTML>.*?)\n(?:=====|$)" 
+| rex field=_raw "(?s)Check for setuid shell at /var/tmp/sh =====\n(?<suid>.*?)\n\n(?:=====|$)" 
+| rex field=_raw "(?s)Root-owned SUID files =====\n(?<RootSUID>.*?)\n(?:=====|$)" 
+| rex field=_raw "(?s)NSPPE core dumps \(low confidence indicator\) =====\n(?<NSPPE>.*?)\n(?:=====|$)" 
+| rex field=_raw "(?s)Checking rc\.netscaler for backdoor =====\n(?<rcNetscaler>.*?)\n(?:=====|$)" 
+| rex field=_raw "(?s)Checking httpd configuration changes =====\n(?<httpdConfig>.*?)"
 ```
+and a where command to only show events from systems that are returning data that's worth looking into further
+```
+| where PHP!="" 
+    OR XHTML!="" 
+    OR suid != "/var/tmp/sh does not exist or is not setuid."
+    OR RootSUID!="" 
+    OR NSPPE!="" 
+    OR rcNetscaler!="" 
+    OR httpdConfig!=""
+```
+stick those in an alert that runs every 10 minutes and you might know when you've been hacked
