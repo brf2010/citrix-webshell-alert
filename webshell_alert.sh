@@ -32,3 +32,6 @@ curl -k "$SPLUNK_URL" \
   -H "Authorization: Splunk $HEC_TOKEN" \
   -d "{\"host\": \"$HOSTNAME\", \
   \"event\": \"$ESCAPED_CONTENT\"}"
+
+# do some cleanup to the log directory. citrix netscaler devices have fixed disk sizes because of reasons.
+find /var/log/ -type f -iname "custom_checks*.log" -mtime +7 -delete
