@@ -2,15 +2,16 @@
 # citrix compromise alerting wrapper script, written by Bryan Fisher <brf2010@med.cornell.edu> <bryan.fisher797@gmail.com>
 # Usage: ./webshell_alert.sh <splunk_url> <hec_token>
 
-if [ -z "$SPLUNK_URL" ] || [ -z "$HEC_TOKEN" ]; then
-  echo "Usage: $0 <splunk_url> <hec_token>"
-  exit 1
-fi
 
 SPLUNK_URL="$1"
 HEC_TOKEN="$2"
 CHECK_SCRIPT_PATH="/var/nsinstall/TLPCLEAR_check_script_cve-2025-6543-v1.8.sh"
 HOSTNAME=$(hostname)
+
+if [ -z "$SPLUNK_URL" ] || [ -z "$HEC_TOKEN" ]; then
+  echo "Usage: $0 <splunk_url> <hec_token>"
+  exit 1
+fi
 
 # Run the check script and capture its output
 output=$(sh $CHECK_SCRIPT_PATH)
