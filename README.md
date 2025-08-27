@@ -1,5 +1,5 @@
 # what is this
-an attempt to have some alerting for compromise on Citrix systems. this code is just an alerting wrapper around NCSC-NL's "live host bash check" script. it sends the output of that script to a splunk HEC endpoint, but the script is simple enough that it could be adapted to send data via any other means.
+an attempt to have some alerting for compromise on Citrix systems. this code is just an alerting wrapper around [NCSC-NL's "live-host-bash-check"](https://github.com/NCSC-NL/citrix-2025/tree/main/live-host-bash-check) script. it sends the output of that script to a splunk HEC endpoint, but the script is simple enough that it could be adapted to send data via any other means.
 
 this is not at all officially supported by citrix, but neither are their customers.
 
