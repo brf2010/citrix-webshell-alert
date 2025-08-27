@@ -27,7 +27,7 @@ fi
 # Read file content
 FILE_CONTENT=$(cat "$log_path")
 
-# Escape double quotes and backslashes for JSON
+# Escape double quotes, newlines, and backslashes for JSON
 ESCAPED_CONTENT=$(sed -e 's/\\/\\\\/g' -e 's/"/\\"/g' "$log_path" | perl -0777 -pe 's/\n/\\n/g')
 
 # Send to Splunk HEC
