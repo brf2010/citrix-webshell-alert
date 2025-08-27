@@ -34,7 +34,7 @@ modify the cron timing to run at whatever interval you want
 whatever you want, man, but here's a pile of SPL to pull out the relevant fields
 
 ```
-index=netscaler source=Citrix_webshell_checks 
+index=netscaler sourcetype=citrix_webshell_checks 
 | rex field=_raw "(?s)PHP files in /var/netscaler/ =====\n(?<PHP>.*?)(?:=====|$)"
 | rex field=_raw "(?s)XHTML files in /var/netscaler/ =====\n(?<XHTML>.*?)\n(?:=====|$)" 
 | rex field=_raw "(?s)Check for setuid shell at /var/tmp/sh =====\n(?<suid>.*?)\n\n(?:=====|$)" 
