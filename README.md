@@ -10,7 +10,7 @@ ssh to your citrix endpoint
 
 drop to `shell`
 
-run these commands to drop the scripts on your netscaler node (you really should inspect these files instead of running them blindly in production, but i'm not your dad)
+run these commands to drop the scripts on your netscaler endpoint (you really should inspect these files instead of running them blindly in production, but i'm not your dad)
 ```
 cd /var/nsinstall/
 curl -O https://raw.githubusercontent.com/brf2010/citrix-webshell-alert/refs/heads/main/webshell_alert.sh
@@ -24,6 +24,7 @@ scp TLPCLEAR_check_script_cve-2025-6543-v1.8.sh nsroot@$host:/var/nsinstall
 ```
 
 ## install crontab
+from a root shell:
 `crontab -e `
 
 `*/10       *       *       *       *       sh /var/nsinstall/webshell_alert.sh '<https://<HEC ENDPOINT>:8088/services/collector/event>' '<HEC TOKEN>' 2>&1 > /tmp/script_output.txt`
