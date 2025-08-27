@@ -1,6 +1,6 @@
 #!/bin/sh
-
-# Usage: ./upload_to_splunk.sh <file_path> <splunk_url> <hec_token>
+# citrix compromise alerting wrapper script, written by Bryan Fisher <brf2010@med.cornell.edu> <bryan.fisher797@gmail.com>
+# Usage: ./webshell_alert.sh <splunk_url> <hec_token>
 
 SPLUNK_URL="$1"
 HEC_TOKEN="$2"
