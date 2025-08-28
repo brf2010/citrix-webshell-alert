@@ -4,9 +4,20 @@ an attempt to have some alerting for compromise on Citrix systems. this code is 
 this is not at all officially supported by citrix, but neither are their customers.
 
 # how2install
+## automagically
+the easiest way to do this across several hosts is with the deploy.exp script. call it like this:
+```./deploy.exp username some.netscaler.adc.fqdn```
+PREREQUISITES:
+1. take some time to read the script. seriously, don't run random shit from the internet against production. if you're not willing to do that, you should follow the manual steps below.
+2. tcl expect installed and available
+3. already downloaded the NCSC-NL check script into the directory you'll be running it from
+4. update the crontab file with your SPLUNK_SERVER and HEC_TOKEN
 
-## install the scripts
-ssh to your citrix endpoint
+the script automatically does everything the manual steps do below. there's probably a way to do this with ansible instead of expect but i couldn't figure out how to get ansible to just write "shell\n" to escape the ADC CLI and get to a regular shell. if you know how to do this please contact me.
+
+## manually
+#### install the scripts
+ssh to your citrix ADC
 
 drop to `shell`
 
@@ -18,17 +29,19 @@ curl -O https://raw.githubusercontent.com/NCSC-NL/citrix-2025/refs/heads/main/li
 ```
 OR copy the files over with `scp`
 ```
-host=some.netscaler.adc.corpo.domain
+host=some.netscaler.adc.fqdn
 scp webshell_alert.sh nsroot@$host:/var/nsinstall/
 scp TLPCLEAR_check_script_cve-2025-6543-v1.8.sh nsroot@$host:/var/nsinstall
 ```
 
-## install crontab
-from a root shell:
+#### install crontab
+from the same root shell:
 
 `crontab -e `
 
-`*/10       *       *       *       *       sh /var/nsinstall/webshell_alert.sh 'https://<HEC ENDPOINT>:8088/services/collector/event' '<HEC TOKEN>' 2>&1 > /tmp/script_output.txt`
+add the following line, updating the <SPLUNK_SERVER> and <HEC_TOKEN> to values that make sense for your environment.
+
+`*/10       *       *       *       *       sh /var/nsinstall/webshell_alert.sh 'https://<SPLUNK_SEVER>:8088/services/collector/event' '<HEC_TOKEN>' 2>&1 > /tmp/script_output.txt`
 
 modify the cron timing to run at whatever interval you want
 
