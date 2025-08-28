@@ -21,7 +21,7 @@ spawn scp webshell_alert.sh $user@$remote_server:$remote_install_path/webshell_a
 expect {
     -re "yes/no.*\\)\?" { 
                     send_user "\nyou really need to make sure that the remote host is already in known_hosts.\nthis script will now bail so you can go do that.\n"
-                    abort }
+                    exit 1 }
     "assword:" { send $pass\n }
     }
 expect eof
