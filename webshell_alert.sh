@@ -32,6 +32,7 @@ ESCAPED_CONTENT=$(sed -e 's/\\/\\\\/g' -e 's/"/\\"/g' "$log_path" | perl -0777 -
 curl -k "$SPLUNK_URL" \
   -H "Authorization: Splunk $HEC_TOKEN" \
   -d "{\"host\": \"$HOSTNAME\", \
+  \"source\":\"$log_path\", \
   \"event\": \"$ESCAPED_CONTENT\"}"
 
 # do some cleanup to the log directory. citrix netscaler devices have fixed disk sizes because of reasons.
