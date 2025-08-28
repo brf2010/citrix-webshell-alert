@@ -57,17 +57,19 @@ expect "#"
 
 # update root crontab
 send -- "cat > crontab\n"
+sleep 0.5
 
 set crontabfh [open crontab r]
 
 while {[gets $crontabfh read_line] != -1} {
- 	send -s "$read_line\r"
+        send -s "$read_line\n"
  }
 
 send -- "\x04"
 expect "#"
-send "echo success\n"
+send "crontab crontab\n"
 expect "#"
-send "exit\n"
+
+# close $fh
 
 # close $fh
