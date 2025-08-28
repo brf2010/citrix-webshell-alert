@@ -17,7 +17,7 @@ stty echo
 set pass $expect_out(1,string)
 
 # scp files
-spawn scp -o ControlPath=$control_socket webshell_alert.sh $user@$remote_server:$remote_install_path/webshell_alert.sh
+spawn scp webshell_alert.sh $user@$remote_server:$remote_install_path/webshell_alert.sh
 expect "assword:" {
                 send $pass\n
                 }
