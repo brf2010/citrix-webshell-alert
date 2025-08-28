@@ -23,6 +23,7 @@ expect {
                     send_user "\nyou really need to make sure that the remote host is already in known_hosts.\nthis script will now bail so you can go do that.\n"
                     abort }
     "assword:" { send $pass\n }
+    }
 expect eof
 # scp check_script
 spawn scp $check_script_name $user@$remote_server:$remote_install_path/$check_script_name
