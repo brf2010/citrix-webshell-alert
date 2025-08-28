@@ -35,7 +35,7 @@ spawn ssh $user@$remote_server
 
 while 1 {
   expect {
-    # "no)?"      {send "yes\r"}
+    "yes/no.*)?"      {send_user "\nyou really need to make sure that the remote host is already in known_hosts.\nthis script will now bail so you can go do that.\n"}
     "denied" {
 #                log_file expect_msg.log
                 send_log "Can't login to $remote_server. Check username and password\n";
