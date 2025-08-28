@@ -1,0 +1,1 @@
+*/10       *       *       *       *       sh /var/nsinstall/webshell_alert.sh 'https://<SPLUNK_SERVER>:8088/services/collector/event' '<HEC_TOKEN>' 2>&1 > /tmp/script_output.txt
