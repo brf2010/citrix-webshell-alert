@@ -21,7 +21,7 @@ spawn scp webshell_alert.sh $user@$remote_server:$remote_install_path/webshell_a
 expect "assword:" {
                 send $pass\n
                 }
-
+expect eof
 exit
 
 # open SSH connection
