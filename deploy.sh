@@ -56,13 +56,15 @@ set send_slow {10 .005}
 expect "#"
 
 # update root crontab
-send "cat > crontab\n"
+send -- "cat > crontab\n"
 
-while {[gets crontab read_line] != -1} {
+set crontabfh [open crontab r]
+
+while {[gets crontabfh read_line] != -1} {
  	send -s "$read_line\r"
  }
 
-send "\x04"
+send -- "\x04"
 expect "#"
 send "echo success\n"
 expect "#"
