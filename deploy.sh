@@ -60,7 +60,7 @@ send -- "cat > crontab\n"
 
 set crontabfh [open crontab r]
 
-while {[gets crontabfh read_line] != -1} {
+while {[gets $crontabfh read_line] != -1} {
  	send -s "$read_line\r"
  }
 
