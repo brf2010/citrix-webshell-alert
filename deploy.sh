@@ -2,9 +2,13 @@
 # automatic deployment script for citrix ADC systems. 
 # there's probably a better way to do this with ansible but i'm not smart enough to figure it out
 
+# extract CLI args, set important variables
 set user [lrange $argv 0 0]
 set remote_server [lrange $argv 1 1]
+set remote_install_path "/var/nsinstall"
+set check_script_name "TLPCLEAR_check_script_cve-2025-6543-v1.8.sh"
 
+# get endpoint password from user
 stty -echo
 send_user -- "\nPassword for $user@$remote_server: "
 expect_user -re "(.*)\n"
@@ -12,10 +16,17 @@ send_user "\n"
 stty echo
 set pass $expect_out(1,string)
 
-set timeout 10
-spawn ssh -M $user@$remote_server
+# scp files
+spawn scp -o ControlPath=$control_socket webshell_alert.sh $user@$remote_server:$remote_install_path/webshell_alert.sh
+expect "assword:" {
+                send $pass\n
+                }
 
-# set fh [open $infile r]
+exit
+
+# open SSH connection
+set timeout 10
+spawn ssh $user@$remote_server
 
 while 1 {
   expect {
@@ -47,12 +58,10 @@ while 1 {
                 send -- "shell\n"
                 break
                 }
-    #"#"        {break}
   }
 }
 
 set send_slow {10 .005}
-
 expect "#"
 
 # update root crontab
