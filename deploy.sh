@@ -60,16 +60,15 @@ send -- "cat > crontab\n"
 sleep 0.5
 
 set crontabfh [open crontab r]
-
 while {[gets $crontabfh read_line] != -1} {
         send -s "$read_line\n"
  }
+close $crontabfh
 
 send -- "\x04"
 expect "#"
 send "crontab crontab\n"
 expect "#"
-
-# close $fh
-
-# close $fh
+send "exit\n"
+expect ">"
+send "exit\n"
