@@ -18,9 +18,11 @@ set pass $expect_out(1,string)
 
 # scp webshell_alert.sh
 spawn scp webshell_alert.sh $user@$remote_server:$remote_install_path/webshell_alert.sh
-expect "assword:" {
-                send $pass\n
-                }
+expect {
+    -re "yes/no.*)?" { 
+                    send_user "\nyou really need to make sure that the remote host is already in known_hosts.\nthis script will now bail so you can go do that.\n"
+                    abort }
+    "assword:" { send $pass\n }
 expect eof
 # scp check_script
 spawn scp $check_script_name $user@$remote_server:$remote_install_path/$check_script_name
@@ -35,7 +37,6 @@ spawn ssh $user@$remote_server
 
 while 1 {
   expect {
-    "yes/no.*)?"      {send_user "\nyou really need to make sure that the remote host is already in known_hosts.\nthis script will now bail so you can go do that.\n"}
     "denied" {
 #                log_file expect_msg.log
                 send_log "Can't login to $remote_server. Check username and password\n";
