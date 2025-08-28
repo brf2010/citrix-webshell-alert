@@ -33,7 +33,7 @@ expect "assword:" {
 expect eof
 
 # open SSH connection to handle updating crontab
-set timeout 10
+set timeout 20
 spawn ssh $user@$remote_server
 
 while 1 {
