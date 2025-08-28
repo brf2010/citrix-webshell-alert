@@ -41,7 +41,9 @@ from the same root shell:
 
 `crontab -e `
 
-add the following line, updating the <SPLUNK_SERVER> and <HEC_TOKEN> to values that make sense for your environment.
+this will drop you into a `vi` editor, so you should know how to use that
+
+add the following line, updating the <SPLUNK_SERVER> and <HEC_TOKEN> to values that make sense for your environment:
 
 `*/10       *       *       *       *       sh /var/nsinstall/webshell_alert.sh 'https://<SPLUNK_SEVER>:8088/services/collector/event' '<HEC_TOKEN>' 2>&1 > /tmp/script_output.txt`
 
@@ -71,3 +73,13 @@ and a where command to only show events from systems that are returning data tha
     OR httpdConfig!=""
 ```
 stick those in an alert that runs every 10 minutes and you might know when you've been hacked
+
+# oh god i think this broke production what do i do
+to turn it off, keep calm and do the following:
+1. `ssh` to your ADC
+2. drop to `shell`
+3. run `crontab -e`
+4. remove the line that runs the script
+5. `:wq`
+
+that will stop the script from running. if production is still broken it's probably something else. good luck.
