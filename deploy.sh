@@ -16,15 +16,20 @@ send_user "\n"
 stty echo
 set pass $expect_out(1,string)
 
-# scp files
+# scp webshell_alert.sh
 spawn scp webshell_alert.sh $user@$remote_server:$remote_install_path/webshell_alert.sh
 expect "assword:" {
                 send $pass\n
                 }
 expect eof
-exit
+# scp check_script
+spawn scp $check_script_name $user@$remote_server:$remote_install_path/$check_script_name
+expect "assword:" {
+                send $pass\n
+                }
+expect eof
 
-# open SSH connection
+# open SSH connection to handle updating crontab
 set timeout 10
 spawn ssh $user@$remote_server
 
@@ -81,3 +86,5 @@ expect "#"
 send "exit\n"
 expect ">"
 send "exit\n"
+expect eof
+exit
