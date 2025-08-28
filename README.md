@@ -6,14 +6,16 @@ this is not at all officially supported by citrix, but neither are their custome
 # how2install
 ## automagically
 the easiest way to do this across several hosts is with the deploy.exp script. call it like this:
+
 ```./deploy.exp username some.netscaler.adc.fqdn```
+
 PREREQUISITES:
 1. take some time to read the script. seriously, don't run random shit from the internet against production. if you're not willing to do that, you should follow the manual steps below.
 2. tcl expect installed and available
 3. already downloaded the NCSC-NL check script into the directory you'll be running it from
 4. update the crontab file with your SPLUNK_SERVER and HEC_TOKEN
 
-the script automatically does everything the manual steps do below. there's probably a way to do this with ansible instead of expect but i couldn't figure out how to get ansible to just write "shell\n" to escape the ADC CLI and get to a regular shell. if you know how to do this please contact me.
+the script automatically does everything the manual steps do below, so it's convenient if you need to deploy it across more than a couple ADC systems, or automate this for any reason. there's probably a way to do this with ansible instead of expect but i couldn't figure out how to get ansible to just write "shell\n" to escape the ADC CLI and get to a regular shell. if you know how to do this please contact me.
 
 ## manually
 #### install the scripts
